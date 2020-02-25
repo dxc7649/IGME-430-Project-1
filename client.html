@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Fill in Paragraph</title>
+    <style>
+        button {
+            font-size: 1.3em;
+        }
+
+        section {
+            margin: 2em 0;
+        }
+
+    </style>
+    <script>
+        window.onload = () => {
+            submitChose.onclick = () => {
+                let path = "http://127.0.0.1:3000/getRandomParas";
+                const xhr = new XMLHttpRequest();
+                xhr.onerror = (e) => {
+                    console.log(e);
+                }
+                xhr.ontimeout = (e) => {
+                    console.log(e);
+                }
+                xhr.onload = (e) => {
+                    if (e.target.status == 200) {
+                        let para = JSON.parse(e.target.response);
+                        chosenPara.innerHTML = `<p><b>${para.p}</b></p>`;
+                    }
+                }
+                
+                xhr.open('GET', path);
+                xhr.send();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Fill in Funny Paragraphs</h1>
+    <section>
+        <select id="selectPara">
+            <option value="firstPara">Paragraph 1</option>
+            <option value="secondPara">Paragraph 2</option>
+            <option value="thirdPara">Paragraph 3</option>
+        </select>
+        <button id="submitChose">Confirm</button>
+    </section>
+    <hr>
+    <section>
+        <h2>Chosen Paragraph:</h2>
+        <section id="chosenPara"></section>
+    </section>
+
+</body>
+
+</html>
